@@ -6,7 +6,7 @@
 
 OBJECTS		= reciprocal.o
 LIBRARIES	=
-PROGRAMS	= main
+PROGRAMS	= reciprocal
 
 .PHONY:         all clean
 
@@ -15,7 +15,14 @@ all:            $(OBJECTS) $(LIBRARIES) $(PROGRAMS)
 
 # Clean up build products.
 clean:
-	rm -f *.o $(LIBRARIES) $(PROGRAMS)
+	rm -f *.o $(LIBRARIES) $(PROGRAMS) core
 
-# Additional dependencies.
-main:		reciprocal.o
+reciprocal: main.o reciprocal.o
+	g++ $(CFLAGS) -o reciprocal main.o reciprocal.o
+
+main.o: main.c reciprocal.hpp
+	gcc $(CFLAGS) -c main.c
+
+reciprocal.o: reciprocal.cpp reciprocal.hpp
+	g++ $(CFLAGS) -c reciprocal.cpp
+
